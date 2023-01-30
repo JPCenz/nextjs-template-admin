@@ -7,7 +7,7 @@ import Head from "next/head"
 import { NextRouter, useRouter } from "next/router"
 import { useEffect } from "react"
 
-const login = () => {
+const Login = () => {
     const router: NextRouter = useRouter()
     const user = useUser();
     const session = useSession()
@@ -77,4 +77,4 @@ const login = () => {
 
 }
 
-export default login
+export default Login

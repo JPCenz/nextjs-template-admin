@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useState } from 'react';
 
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -14,6 +14,8 @@ import { SidebarProvider } from 'src/contexts/SidebarContext';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { SessionContextProvider } from '@supabase/auth-helpers-react'
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout = NextPage & {
@@ -26,6 +28,8 @@ interface TokyoAppProps extends AppProps {
 }
 
 function TokyoApp(props: TokyoAppProps) {
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -34,7 +38,12 @@ function TokyoApp(props: TokyoAppProps) {
   Router.events.on('routeChangeComplete', nProgress.done);
 
   return (
-    <CacheProvider value={emotionCache}>
+
+    <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+    >
+      <CacheProvider value={emotionCache}>
       <Head>
         <title>Next JS Example</title>
         <meta
@@ -51,6 +60,10 @@ function TokyoApp(props: TokyoAppProps) {
         </ThemeProvider>
       </SidebarProvider>
     </CacheProvider>
+  
+    </SessionContextProvider>
+
+    
   );
 }
 

@@ -40,21 +40,7 @@ function ManagementUserProfile() {
           <Grid item xs={12} md={8}>
             <ProfileCover user={user} />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <RecentActivity />
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Feed />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <PopularTags />
-          </Grid>
-          <Grid item xs={12} md={7}>
-            <MyCards />
-          </Grid>
-          <Grid item xs={12} md={5}>
-            <Addresses />
-          </Grid>
+
         </Grid>
       </Container>
       <Footer />

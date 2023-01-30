@@ -14,6 +14,8 @@ import Head from 'next/head';
 
 import Logo from 'src/components/LogoSign';
 import Hero from 'src/content/Overview/Hero';
+import { useRouter } from 'next/router';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const HeaderWrapper = styled(Card)(
   ({ theme }) => `
@@ -35,6 +37,9 @@ const OverviewWrapper = styled(Box)(
 );
 
 function Overview() {
+  const supabase = useSupabaseClient()
+  const session = useSession()
+  const router = useRouter()
   return (
     <OverviewWrapper>
       <Head>
@@ -53,12 +58,20 @@ function Overview() {
               <Box />
               <Box>
                 <Button
+                variant="contained"
+                sx={{ ml: 2 }}
+                onClick = {async ()=> await supabase.auth.signOut()}
+                >
+                  Logout
+                </Button>
+                <Button
+                  onClick={async ()=> !session ? router.push('/login'):<><div>HOLA</div></>}
                   component={Link}
-                  href="/dashboards/tasks"
+                  href="/login"
                   variant="contained"
                   sx={{ ml: 2 }}
                 >
-                  Live Preview
+                  Login
                 </Button>
               </Box>
             </Box>
